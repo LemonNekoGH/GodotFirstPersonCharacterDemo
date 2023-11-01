@@ -6,6 +6,7 @@ public partial class Player : CharacterBody3D
 {
     [Export] public float Gravity { get; set; } = 9.8f;
     [Export] public float Speed { get; set; } = 4f;
+    [Export] public float RunSpeed { get; set; } = 8f;
     [Export] public float RotationSpeed { get; set; } = 0.001f;
 
     private Vector3 _targetVelocity = Vector3.Zero;
@@ -53,8 +54,10 @@ public partial class Player : CharacterBody3D
         direction = direction.Rotated(Vector3.Up, Rotation.Y);
         direction = direction.Normalized();
 
-        _targetVelocity.X = direction.X * Speed;
-        _targetVelocity.Z = direction.Z * Speed;
+        var speed = Input.IsActionPressed("run") ? RunSpeed : Speed;
+
+        _targetVelocity.X = direction.X * speed;
+        _targetVelocity.Z = direction.Z * speed;
 
         if (!IsOnFloor())
         {
